@@ -235,12 +235,12 @@ void SpectralFiltre::OnParamChange(int paramIdx)
 
 void SpectralFiltre::ProcessBlock(sample** inputs, sample** outputs, int nFrames)
 {
-  static float bufL[8192], bufR[8192], outL[8192], outR[8192];
+  float* bufL = mBufL; float* bufR = mBufR; float* outL = mOutL; float* outR = mOutR;
   int n = std::min(nFrames, 8192);
 
   for (int i = 0; i < n; i++) { bufL[i] = (float)inputs[0][i]; bufR[i] = (float)inputs[1][i]; }
 
-  static float bufMix[8192];
+  float* bufMix = mBufMix;
   for (int i = 0; i < n; i++) bufMix[i] = (bufL[i] + bufR[i]) * 0.5f;
   mAnalyzer.Process(bufMix, n);
   {
